@@ -16,6 +16,15 @@ Finish making these components look acceptable.
 
 * When you click on a note in the list, populate the form with the data from that note.
 
+## Day 8 Homework
+
+Finish all the bonus work from yesterday.
+
+* Make a working _delete_ button.
+* When you click on a note in the list, populate the form with the data from that note.
+
+## About Noteherder
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Quill graphic by Icon Solid from the [Noun Project](https://thenounproject.com/).
