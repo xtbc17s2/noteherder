@@ -40,3 +40,12 @@ Finish all the bonus work from yesterday.
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Quill graphic by Icon Solid from the [Noun Project](https://thenounproject.com/).
+
+## Day 9 Homework
+
+* Remove the "Save and new" button from `NoteForm`, and assign the same functionality to the "+" button in the sidebar.
+
+### Super Mega Bonus Credit
+
+* Add another authentication method to your app, such as Twitter, Facebook, Google, email/password, etc.
+* Remember, the Firebase documentation is your friend.
