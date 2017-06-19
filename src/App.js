@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Main from './Main'
+import SignIn from './SignIn'
+import SignOut from './SignOut'
 import base from './base'
 
 class App extends Component {
@@ -32,12 +34,25 @@ class App extends Component {
     this.setState({ notes })
   }
 
+  signedIn = () => {
+    return true
+  }
+
+  renderMain = () => {
+    return (
+      <div>
+        <SignOut />
+        <Main notes={this.state.notes} saveNote={this.saveNote} />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="App">
-        <Main notes={this.state.notes} saveNote={this.saveNote} />
+        { this.signedIn() ? this.renderMain() : <SignIn /> }
       </div>
-    );
+    )
   }
 }
 
