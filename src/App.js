@@ -13,6 +13,7 @@ class App extends Component {
     this.state = {
       notes: {},
       uid: null,
+      currentNoteId: null,
     }
   }
 
@@ -78,10 +79,15 @@ class App extends Component {
       )
   }
 
+  setCurrentNoteId = (noteId) => {
+    this.setState({ currentNoteId: noteId })
+  }
+
   renderMain = () => {
     const actions = {
       saveNote: this.saveNote,
       removeNote: this.removeNote,
+      setCurrentNoteId: this.setCurrentNoteId,
     }
 
     return (
