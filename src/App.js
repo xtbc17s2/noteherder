@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import './App.css';
+import './App.css'
 import Main from './Main'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
-import base from './base'
+import base, { auth } from './base'
 
 class App extends Component {
   constructor() {
@@ -44,7 +44,10 @@ class App extends Component {
   }
 
   signOut = () => {
-    this.setState({ uid: null })
+    auth
+      .signOut()
+      .then(() => this.setState({ uid: null }))
+    
   }
 
   renderMain = () => {
