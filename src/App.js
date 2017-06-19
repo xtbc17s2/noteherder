@@ -44,6 +44,7 @@ class App extends Component {
   saveNote = (note) => {
     if (!note.id) {
       note.id = `note-${Date.now()}`
+      this.setCurrentNoteId(note.id)
     }
     const notes = {...this.state.notes}
     notes[note.id] = note
@@ -89,12 +90,16 @@ class App extends Component {
       removeNote: this.removeNote,
       setCurrentNoteId: this.setCurrentNoteId,
     }
+    const noteData = {
+      notes: this.state.notes,
+      currentNoteId: this.state.currentNoteId,
+    }
 
     return (
       <div>
         <SignOut signOut={this.signOut} />
         <Main
-          notes={this.state.notes}
+          {...noteData}
           {...actions}
         />
       </div>
