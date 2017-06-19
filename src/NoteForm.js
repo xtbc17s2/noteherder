@@ -11,6 +11,10 @@ class NoteForm extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // TODO: ???
+  }
+
   blankNote = () => {
     return {
       id: null,
