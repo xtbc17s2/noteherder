@@ -28,7 +28,7 @@ class App extends Component {
 
   syncNotes = () => {
     this.ref = base.syncState(
-      `${this.state.uid}/notes`,
+      `notes/${this.state.uid}`,
       {
         context: this,
         state: 'notes',
