@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Note = ({ note, setCurrentNoteId }) => {
+const Note = ({ note, setCurrentNote }) => {
   return (
-    <a onClick={() => setCurrentNoteId(note.id)}>
+    <a onClick={() => setCurrentNote(note)}>
       <li>
         <div className="note">
           <div className="note-title">
