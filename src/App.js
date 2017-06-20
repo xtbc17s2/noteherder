@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   syncNotes = () => {
-    base.syncState(
+    this.ref = base.syncState(
       `${this.state.uid}/notes`,
       {
         context: this,
@@ -80,7 +80,13 @@ class App extends Component {
   signOut = () => {
     auth
       .signOut()
-      .then(() => this.setState({ uid: null }))
+      .then(
+        () => {
+          base.removeBinding(this.ref)
+          this.resetCurrentNote()
+          this.setState({ uid: null, notes: {} })
+        }
+      )
   }
 
   setCurrentNote = (note) => {
