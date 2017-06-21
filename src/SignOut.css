@@ -3,7 +3,7 @@
   bottom: 10px;
 }
 .SignOut button {
-  background-color: transparent;
+  outline: none;
 }
 .SignOut button i.fa {
   font-size: 2rem;
