@@ -18,6 +18,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    this.getUserFromLocalStorage()
     auth.onAuthStateChanged(
       (user) => {
         if (user) {
@@ -31,6 +32,12 @@ class App extends Component {
     )
   }
 
+  getUserFromLocalStorage() {
+    const uid = localStorage.getItem('uid')
+    if (!uid) return
+    this.setState({ uid })
+  }
+
   syncNotes = () => {
     this.ref = base.syncState(
       `notes/${this.state.uid}`,
@@ -39,6 +46,12 @@ class App extends Component {
         state: 'notes',
       }
     )
+  }
+
+  stopSyncing = () => {
+    if (this.ref) {
+      base.removeBinding(this.ref)
+    }
   }
 
   blankNote = () => {
@@ -75,6 +88,7 @@ class App extends Component {
   }
 
   authHandler = (user) => {
+    localStorage.setItem('uid', user.uid)
     this.setState(
       { uid: user.uid },
       this.syncNotes
@@ -86,8 +100,7 @@ class App extends Component {
       .signOut()
       .then(
         () => {
-          // stop syncing with Firebase
-          base.removeBinding(this.ref)
+          this.stopSyncing()
           this.setState({
             notes: {},
             currentNote: this.blankNote()
@@ -121,12 +134,19 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route path="/notes" render={() => (
-            <Main
-              {...noteData}
-              {...actions}
-            />
+            this.signedIn()
+              ? <Main
+                  {...noteData}
+                  {...actions}
+                />
+              : <Redirect to="/sign-in" />
           )} />
-          <Route path="/sign-in" component={SignIn} />
+          <Route path="/sign-in" render={() => (
+            !this.signedIn()
+              ? <SignIn />
+              : <Redirect to="/notes" />
+          )} />
+
           <Route render={() => <Redirect to="/notes" />} />
         </Switch>
       </div>
