@@ -13,8 +13,8 @@ const Sidebar = ({ signOut }) => {
       <div className="logo">
         <img src={quill} alt="Noteherder" />
       </div>
-      <Link to="/notes">
-        <button className="new-note">
+      <Link to="/notes" className="new-note">
+        <button>
           <img src={newHover} alt="New note" />
           <img className="outline" src={newIcon} alt="New note" />
         </button>
