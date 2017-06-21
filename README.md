@@ -48,3 +48,11 @@ Quill graphic by Icon Solid from the [Noun Project](https://thenounproject.com/)
 
 * Add another authentication method to your app, such as Twitter, Facebook, Google, email/password, etc.
 * Remember, the Firebase documentation is your friend.
+
+## Day 11 Homework
+
+* Make the sign in page prettier
+
+### Super Mega Bonus Credit
+
+* Add a rich text editor to the form.
