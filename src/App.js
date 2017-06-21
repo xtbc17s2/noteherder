@@ -111,12 +111,15 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route path="/notes" render={() => (
-            <Main
-              {...noteData}
-              {...actions}
-            />
+            this.signedIn()
+              ? <Main {...noteData} {...actions} />
+              : <Redirect to="/sign-in" />
           )} />
-          <Route path="/sign-in" component={SignIn} />
+          <Route path="/sign-in" render={() => (
+            !this.signedIn()
+              ? <SignIn />
+              : <Redirect to="/notes" />
+          )} />
           <Route render={() => <Redirect to="/notes" />} />
         </Switch>
       </div>
