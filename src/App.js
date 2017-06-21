@@ -91,10 +91,10 @@ class App extends Component {
       .signOut()
       .then(
         () => {
-          base.removeBinding(this.ref)
           this.resetCurrentNote()
           localStorage.removeItem('uid')
           this.setState({ uid: null, notes: {} })
+          base.removeBinding(this.ref)
         }
       )
   }
