@@ -63,8 +63,10 @@ class App extends Component {
   }
 
   saveNote = (note) => {
+    let shouldRedirect = false
     if (!note.id) {
       note.id = `note-${Date.now()}`
+      shouldRedirect = true
     }
     const notes = {...this.state.notes}
     notes[note.id] = note
@@ -72,15 +74,17 @@ class App extends Component {
       notes,
       currentNote: note,
     })
+    if (shouldRedirect) {
+      this.props.history.push(`/notes/${note.id}`)
+    }
   }
 
   removeNote = (note) => {
     const notes = {...this.state.notes}
     notes[note.id] = null
     this.resetCurrentNote()
-    this.setState(
-      { notes },
-    )
+    this.setState({ notes })
+    this.props.history.push('/notes')
   }
 
   signedIn = () => {
