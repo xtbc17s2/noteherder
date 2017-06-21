@@ -13,6 +13,8 @@ class NoteForm extends Component {
           this.props.setCurrentNote(note)
         }
       }
+    } else if (this.props.currentNote.id) {
+      this.props.resetCurrentNote()
     }
   }
 
