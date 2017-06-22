@@ -4,20 +4,49 @@ import './NoteForm.css'
 
 class NoteForm extends Component {
   componentWillReceiveProps(nextProps) {
-    const newId = nextProps.match.params.id
+    const nonBlankIdFromUrl = nextProps.match.params.id
 
-    if (newId) {
-      if (newId !== this.props.currentNote.id) {
-        const note = nextProps.notes[newId]
-        if (note) {
-          this.props.setCurrentNote(note)
-        } else if (Object.keys(nextProps.notes).length > 0) {
-          this.props.history.push('/notes')
-        }
+    if (nonBlankIdFromUrl) {
+      if (this.notAlreadyEditing(nonBlankIdFromUrl)) {
+        this.loadNoteWith(nonBlankIdFromUrl, { from: nextProps.notes })
+        || this.handleMissingNote({ from: nextProps.notes })
       }
-    } else if (this.props.currentNote.id) {
+    } else if (this.currentlyEditingNonBlankNote()) {
       this.props.resetCurrentNote()
     }
+  }
+
+  loadNoteWith = (noteId, { from }) => {
+    console.log('loadNoteWith')
+    const noteCollection = from
+    const note = noteCollection[noteId]
+    if (!note) return false
+    this.props.setCurrentNote(note)
+  }
+
+  handleMissingNote = ({ from }) => {
+    const noteCollection = from
+    this.keepWaitingForFirebase(noteCollection) || this.noteDoesNotExist()
+  }
+
+  noteDoesNotExist = () => {
+    console.log('noteDoesNotExist')
+    this.props.history.push('/notes')
+  }
+
+  notAlreadyEditing = (noteId) => {
+    console.log('currentlyEditingNonBlankNote')
+    return noteId !== this.props.currentNote.id
+  }
+
+  currentlyEditingNonBlankNote = () => {
+    console.log('currentlyEditingNonBlankNote', this.props.currentNote.id)
+    return Boolean(this.props.currentNote.id)
+  }
+
+  keepWaitingForFirebase = (notes) => {
+    console.log('keepWaitingForFirebase', (Object.keys(notes)))
+    return Object.keys(notes).length === 0
   }
 
   handleChanges = (ev) => {
