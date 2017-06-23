@@ -26,7 +26,7 @@ class App extends Component {
           this.authHandler(user)
         } else {
           // finished signing out
-          this.setState({ uid: null })
+          this.unauthHandler()
         }
       }
     )
@@ -99,18 +99,16 @@ class App extends Component {
     )
   }
 
+  unauthHandler = () => {
+    this.stopSyncing()
+    this.setState({
+      notes: {},
+      uid: null,
+    })
+  }
+
   signOut = () => {
-    auth
-      .signOut()
-      .then(
-        () => {
-          this.stopSyncing()
-          this.setState({
-            notes: {},
-            currentNote: this.blankNote()
-          })
-        }
-      )
+    auth.signOut()
   }
 
   setCurrentNote = (note) => {
