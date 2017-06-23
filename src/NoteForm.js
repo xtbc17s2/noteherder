@@ -3,31 +3,44 @@ import React, { Component } from 'react'
 import './NoteForm.css'
 
 class NoteForm extends Component {
-  componentWillReceiveProps(nextProps) {
-    const newId = nextProps.match.params.id
+  constructor(props) {
+    super(props)
+    this.state = {
+      note: this.blankNote(),
+    }
+  }
 
-    if (newId) {
-      if (newId !== this.props.currentNote.id) {
-        const note = nextProps.notes[newId]
-        if (note) {
-          this.props.setCurrentNote(note)
-        } else if (Object.keys(nextProps.notes).length > 0) {
-          this.props.history.push('/notes')
-        }
-      }
-    } else if (this.props.currentNote.id) {
-      this.props.resetCurrentNote()
+  componentWillReceiveProps({ match, notes }) {
+    const idFromUrl = match.params.id
+    
+    // Redirect to blank note URL if appropriate
+    if (this.state.note.id && !idFromUrl) {
+      this.props.history.push('/notes')
+    }
+
+    const note = notes[idFromUrl] || this.blankNote()
+    this.setState({ note })
+  }
+
+  blankNote = () => {
+    return {
+      id: null,
+      title: '',
+      body: '',
     }
   }
 
   handleChanges = (ev) => {
-    const note = {...this.props.currentNote}
+    const note = {...this.state.note}
     note[ev.target.name] = ev.target.value
-    this.props.saveNote(note)
+    this.setState(
+      { note },
+      () => this.props.saveNote(note)
+    )
   }
 
   handleRemove = (ev) => {
-    this.props.removeNote(this.props.currentNote)
+    this.props.removeNote(this.state.note)
   }
 
   render() {
@@ -40,7 +53,7 @@ class NoteForm extends Component {
               name="title"
               placeholder="Title your note"
               onChange={this.handleChanges}
-              value={this.props.currentNote.title}
+              value={this.state.note.title}
             />
           </p>
           <p>
@@ -48,7 +61,7 @@ class NoteForm extends Component {
               name="body"
               placeholder="Just start typing..."
               onChange={this.handleChanges}
-              value={this.props.currentNote.body}
+              value={this.state.note.body}
             ></textarea>
           </p>
           <button

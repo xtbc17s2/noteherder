@@ -13,7 +13,6 @@ class App extends Component {
     this.state = {
       notes: {},
       uid: null,
-      currentNote: this.blankNote(),
     }
   }
 
@@ -54,14 +53,6 @@ class App extends Component {
     }
   }
 
-  blankNote = () => {
-    return {
-      id: null,
-      title: '',
-      body: '',
-    }
-  }
-
   saveNote = (note) => {
     let shouldRedirect = false
     if (!note.id) {
@@ -70,10 +61,7 @@ class App extends Component {
     }
     const notes = {...this.state.notes}
     notes[note.id] = note
-    this.setState({
-      notes,
-      currentNote: note,
-    })
+    this.setState({ notes })
     if (shouldRedirect) {
       this.props.history.push(`/notes/${note.id}`)
     }
@@ -82,7 +70,6 @@ class App extends Component {
   removeNote = (note) => {
     const notes = {...this.state.notes}
     notes[note.id] = null
-    this.resetCurrentNote()
     this.setState({ notes })
     this.props.history.push('/notes')
   }
@@ -111,25 +98,11 @@ class App extends Component {
     auth.signOut()
   }
 
-  setCurrentNote = (note) => {
-    this.setState({ currentNote: note })
-  }
-
-  resetCurrentNote = () => {
-    this.setCurrentNote(this.blankNote())
-  }
-
   render() {
     const actions = {
       saveNote: this.saveNote,
       removeNote: this.removeNote,
-      setCurrentNote: this.setCurrentNote,
-      resetCurrentNote: this.resetCurrentNote,
       signOut: this.signOut,
-    }
-    const noteData = {
-      notes: this.state.notes,
-      currentNote: this.state.currentNote,
     }
 
     return (
@@ -138,7 +111,7 @@ class App extends Component {
           <Route path="/notes" render={() => (
             this.signedIn()
               ? <Main
-                  {...noteData}
+                  notes={this.state.notes}
                   {...actions}
                 />
               : <Redirect to="/sign-in" />
