@@ -57,6 +57,14 @@ class NoteForm extends Component {
   render() {
     return (
       <div className="NoteForm">
+        <div className="form-actions">
+          <button
+            type="button"
+            onClick={this.handleRemove}
+          >
+            <i className="fa fa-trash-o"></i>
+          </button>
+        </div>
         <form>
           <p>
             <input
@@ -73,12 +81,6 @@ class NoteForm extends Component {
             value={this.state.editorValue}
             onChange={this.handleEditorChanges}
           />
-          <button
-           type="button"
-           onClick={this.handleRemove}
-          >
-            <i className="fa fa-trash-o"></i>
-          </button>
         </form>
       </div>
     )
