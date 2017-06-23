@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import RichTextEditor from 'react-rte'
 
 import './NoteForm.css'
 
@@ -7,19 +8,23 @@ class NoteForm extends Component {
     super(props)
     this.state = {
       note: this.blankNote(),
+      editorValue: RichTextEditor.createEmptyValue()
     }
   }
 
   componentWillReceiveProps({ match, notes }) {
     const idFromUrl = match.params.id
-    
-    // Redirect to blank note URL if appropriate
-    if (this.state.note.id && !idFromUrl) {
-      this.props.history.push('/notes')
-    }
-
     const note = notes[idFromUrl] || this.blankNote()
-    this.setState({ note })
+
+    const noteNotFound = (idFromUrl && !note.id)
+    if (noteNotFound) this.props.history.push('/notes')
+
+    let editorValue = this.state.editorValue
+    if (editorValue.toString('html') !== note.body) {
+      editorValue = RichTextEditor.createValueFromString(note.body, 'html')
+    }
+   
+    this.setState({ note, editorValue })
   }
 
   blankNote = () => {
@@ -35,8 +40,14 @@ class NoteForm extends Component {
     note[ev.target.name] = ev.target.value
     this.setState(
       { note },
-      () => this.props.saveNote(note)
+      this.props.saveNote(note)
     )
+  }
+
+  handleEditorChanges = (editorValue) => {
+    const note = {...this.state.note}
+    note.body = editorValue.toString('html')
+    this.setState({ note, editorValue }, () => this.props.saveNote(note))
   }
 
   handleRemove = (ev) => {
@@ -56,14 +67,12 @@ class NoteForm extends Component {
               value={this.state.note.title}
             />
           </p>
-          <p>
-            <textarea
-              name="body"
-              placeholder="Just start typing..."
-              onChange={this.handleChanges}
-              value={this.state.note.body}
-            ></textarea>
-          </p>
+          <RichTextEditor
+            name="body"
+            placeholder="Just start typing..."
+            value={this.state.editorValue}
+            onChange={this.handleEditorChanges}
+          />
           <button
            type="button"
            onClick={this.handleRemove}
