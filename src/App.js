@@ -13,6 +13,7 @@ class App extends Component {
     this.state = {
       notes: {},
       uid: null,
+      firebaseNotesSynced: false,
     }
   }
 
@@ -43,6 +44,7 @@ class App extends Component {
       {
         context: this,
         state: 'notes',
+        then: () => this.setState({ firebaseNotesSynced: true })
       }
     )
   }
@@ -50,6 +52,7 @@ class App extends Component {
   stopSyncing = () => {
     if (this.ref) {
       base.removeBinding(this.ref)
+      this.setState({ firebaseNotesSynced: false })
     }
   }
 
@@ -112,6 +115,7 @@ class App extends Component {
             this.signedIn()
               ? <Main
                   notes={this.state.notes}
+                  firebaseNotesSynced={this.state.firebaseNotesSynced}
                   {...actions}
                 />
               : <Redirect to="/sign-in" />
