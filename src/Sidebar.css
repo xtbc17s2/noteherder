@@ -18,19 +18,18 @@
 .Sidebar a.new-note {
   margin-top: 2rem;
   position: relative;
-  width: 60%;
+  width: 40px;
 }
-
 .Sidebar button {
   background-color: transparent;
   border: 0;
   color: #008BF8;
   cursor: pointer;
-  }
-  .Sidebar button img {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    transition: opacity 0.25s ease-in-out; }
-    .Sidebar button:hover img.outline {
-      opacity: 0; }
+}
+.Sidebar a img {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.25s ease-in-out; }
+  .Sidebar a:hover img.outline {
+    opacity: 0; }
